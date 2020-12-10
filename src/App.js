@@ -1,29 +1,30 @@
-import logo from './logo.svg';
-import React from 'react'
-import styled from '@emotion/styled'
-import { useTheme } from './ThemeContext'
-
-const Wrapper = styled("div")`
-  background: ${props => props.theme.background};
-  width: 100vw;
-  height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen";
-  h1 {
-    color: ${props => props.theme.body};
-  }`
+import React, { useState } from 'react'
+import { Grid, Typography, Paper } from '@material-ui/core'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import Nav from './Nav'
 
 const App = () => {
-  const themeState = useTheme();
-
+  const [darkMode, setDarkMode] = useState(true)
+  
+  const theme = createMuiTheme({
+    palette: {
+      type: darkMode ? "dark" : "light"
+    }
+  })
+  
   return (
-    <Wrapper>
-      <h1>Dark Mode example</h1>
-      <div>
-        <button onClick={() => themeState.toggle()}>
-          {themeState.dark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-        </button>
-      </div>
-    </Wrapper>
+    <ThemeProvider theme={theme}>
+      <Paper style={{height: "100vh"}}>
+        <Grid container>
+          <grid item xs = {8}>
+            <Typography variant="h1">Dark Mode</Typography>
+          </grid>
+          <grid item xs={4}>
+            <Nav darkMode={darkMode} setDarkMode={setDarkMode}/>
+          </grid>
+        </Grid>
+      </Paper>
+    </ThemeProvider>
   )
 }
 
